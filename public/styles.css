@@ -9,3 +9,10 @@ header{height:auto;min-height:100px;flex-wrap:wrap;padding-block:18px;gap:20px}h
 
 /* Accueil des animaux */
 .pets{display:grid;grid-template-columns:1.1fr .9fr;gap:7vw;align-items:center;background:#e7ebdf}.pets-copy>p:not(.eyebrow){max-width:650px;color:var(--muted);font-size:15px;margin-top:24px}.pets-benefits{list-style:none;padding:0;margin:32px 0}.pets-benefits li{padding:15px 0;border-top:1px solid #c4cebd;display:grid;gap:3px}.pets-benefits strong{font-size:15px}.pets-benefits span{font-size:13px;color:var(--muted)}.pets .pets-note{font-size:12px!important;margin:16px 0 20px!important}.pets-photo img{height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:3px}.pets-photo figcaption{font-size:11px;color:var(--muted);margin-top:10px}@media(max-width:760px){.pets{grid-template-columns:1fr;gap:30px}.pets-photo img{height:auto;max-height:520px;object-position:center}}
+
+/* Photo intégrée au fond de la section animaux */
+.pets{position:relative;isolation:isolate;display:block;overflow:hidden;background:#254235;color:#f6f3ec}
+.pets::before{content:"";position:absolute;inset:0;z-index:-2;background:url("/assets/chien-jardin.webp") right 55%/65% auto no-repeat}
+.pets::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(27,57,43,.98) 0%,rgba(31,64,47,.94) 32%,rgba(34,69,49,.78) 49%,rgba(38,73,49,.2) 75%,rgba(38,73,49,.15))}
+.pets-copy{max-width:54%}.pets-copy>p:not(.eyebrow),.pets-benefits span{color:#e1e9dc}.pets .eyebrow{color:#cadbb9}.pets-benefits li{border-color:#a9bc9566}.pets .text-link{border-color:#c5d7b5}.pets-photo{display:none}
+@media(max-width:760px){.pets::before{background-position:62% center;background-size:cover}.pets::after{background:linear-gradient(90deg,rgba(25,55,39,.91),rgba(29,61,43,.77)),linear-gradient(0deg,rgba(24,52,37,.4),transparent)}.pets-copy{max-width:100%}.pets-copy>p:not(.eyebrow){color:#edf1e7}.pets-benefits span{color:#e1e9dc}}
