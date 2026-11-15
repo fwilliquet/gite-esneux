@@ -16,3 +16,15 @@ header{height:auto;min-height:100px;flex-wrap:wrap;padding-block:18px;gap:20px}h
 .pets::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(27,57,43,.98) 0%,rgba(31,64,47,.94) 32%,rgba(34,69,49,.78) 49%,rgba(38,73,49,.2) 75%,rgba(38,73,49,.15))}
 .pets-copy{max-width:54%}.pets-copy>p:not(.eyebrow),.pets-benefits span{color:#e1e9dc}.pets .eyebrow{color:#cadbb9}.pets-benefits li{border-color:#a9bc9566}.pets .text-link{border-color:#c5d7b5}.pets-photo{display:none}
 @media(max-width:760px){.pets::before{background-position:62% center;background-size:cover}.pets::after{background:linear-gradient(90deg,rgba(25,55,39,.91),rgba(29,61,43,.77)),linear-gradient(0deg,rgba(24,52,37,.4),transparent)}.pets-copy{max-width:100%}.pets-copy>p:not(.eyebrow){color:#edf1e7}.pets-benefits span{color:#e1e9dc}}
+
+/* Donner toute sa place au chien, y compris sur téléphone */
+.pets{padding-top:80px;padding-bottom:80px;min-height:900px}
+.pets-copy{max-width:45%}
+.pets::before{background-position:right center;background-size:auto 100%}
+.pets::after{background:linear-gradient(90deg,#1b392b 0%,rgba(27,57,43,.97) 29%,rgba(27,57,43,.8) 42%,rgba(27,57,43,.18) 61%,rgba(27,57,43,.04) 100%)}
+@media(max-width:760px){
+.pets{padding-top:470px;padding-bottom:65px;min-height:0}
+.pets-copy{max-width:100%}
+.pets::before{background-size:auto 610px;background-position:center top}
+.pets::after{background:linear-gradient(180deg,rgba(27,57,43,.04) 0px,rgba(27,57,43,.04) 320px,rgba(27,57,43,.55) 440px,#1b392b 570px)}
+}
