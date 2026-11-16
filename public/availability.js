@@ -1,6 +1,15 @@
 (() => {
   const root = document.querySelector('#disponibilites');
   if (!root) return;
+  const language = document.documentElement.lang || 'fr';
+  const locale = { fr:'fr-BE', nl:'nl-BE', de:'de-DE', en:'en-GB' }[language] || 'fr-BE';
+  const messages = {
+    fr: {available:msg.available,unavailable:msg.unavailable,loaded:'Calendrier Airbnb consulté le ',select:' Sélectionnez votre arrivée et votre durée.',error:msg.error,pick:msg.pick,blocked:msg.blocked,notLoaded:msg.notLoaded},
+    nl: {available:'Deze data zijn niet geblokkeerd in de laatst geïmporteerde kalender. Airbnb bevestigt de beschikbaarheid en prijs.',unavailable:'Dit verblijf is niet beschikbaar of de data zijn ongeldig. Kies een andere aankomstdatum of verblijfsduur.',loaded:'Airbnb-kalender geraadpleegd op ',select:' Kies je aankomstdatum en verblijfsduur.',error:'De kalender is nog niet verbonden of tijdelijk onbeschikbaar. Controleer de data op Airbnb.',pick:'Kies deze aankomstdatum',blocked:'Niet beschikbaar',notLoaded:'Kalender niet geladen'},
+    de: {available:'Diese Daten sind im zuletzt importierten Kalender nicht gesperrt. Airbnb bestätigt Verfügbarkeit und Preis.',unavailable:'Aufenthalt nicht verfügbar oder Daten ungültig. Wählen Sie eine andere Anreise oder Aufenthaltsdauer.',loaded:'Airbnb-Kalender abgerufen am ',select:' Wählen Sie Anreise und Aufenthaltsdauer.',error:'Der Kalender ist noch nicht verbunden oder vorübergehend nicht verfügbar. Bitte prüfen Sie die Daten auf Airbnb.',pick:'Dieses Anreisedatum wählen',blocked:'Nicht verfügbar',notLoaded:'Kalender nicht geladen'},
+    en: {available:'These dates are not blocked in the latest imported calendar. Airbnb will confirm availability and pricing.',unavailable:'Stay unavailable in the imported calendar, or invalid dates. Choose a different arrival date or length of stay.',loaded:'Airbnb calendar checked on ',select:' Choose your arrival date and length of stay.',error:'The calendar is not connected yet or is temporarily unavailable. Please check dates on Airbnb.',pick:'Choose this arrival date',blocked:'Unavailable',notLoaded:'Calendar not loaded'}
+  };
+  const msg = messages[language] || messages.fr;
   const calendar = root.querySelector('[data-calendar]');
   const status = root.querySelector('[data-calendar-status]');
   const arrival = root.querySelector('[name=checkin]');
@@ -33,7 +42,7 @@
     } else if (arrival.value && loaded) status.textContent = 'Séjour indisponible dans le calendrier importé, ou dates invalides. Choisissez une autre arrivée ou durée.';
   };
   const render = () => {
-    title.textContent = new Intl.DateTimeFormat('fr-BE',{month:'long',year:'numeric'}).format(month);
+    title.textContent = new Intl.DateTimeFormat(locale,{month:'long',year:'numeric'}).format(month);
     prev.disabled = month.getFullYear() === today.getFullYear() && month.getMonth() === today.getMonth();
     calendar.replaceChildren();
     ['L','M','M','J','V','S','D'].forEach(label => { const el=document.createElement('span');el.className='cal-weekday';el.textContent=label;calendar.append(el); });
@@ -57,5 +66,5 @@
   arrival.min=iso(today); arrival.addEventListener('change',()=>{update();render();});
   nights.addEventListener('change',update);
   render();
-  fetch('/api/availability').then(async r=>{const data=await r.json();if(!r.ok)throw Error(data.error);blocked=data.blocked;loaded=true;status.textContent='Calendrier Airbnb consulté le '+new Date(data.updatedAt).toLocaleString('fr-BE')+'. Sélectionnez votre arrivée et votre durée.';render();update();}).catch(()=>{loaded=false;status.textContent='Le calendrier n’est pas encore connecté ou est temporairement indisponible. Consultez Airbnb pour vérifier les dates.';render();});
+  fetch('/api/availability').then(async r=>{const data=await r.json();if(!r.ok)throw Error(data.error);blocked=data.blocked;loaded=true;status.textContent=msg.loaded+new Date(data.updatedAt).toLocaleString(locale)+'.'+msg.select;render();update();}).catch(()=>{loaded=false;status.textContent='Le calendrier n’est pas encore connecté ou est temporairement indisponible. Consultez Airbnb pour vérifier les dates.';render();});
 })();
