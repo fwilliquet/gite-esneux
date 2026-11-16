@@ -38,8 +38,8 @@
       url.searchParams.set('check_out',departure.value);
       url.searchParams.set('adults','4');
       link.href = url.toString();
-      status.textContent = 'Ces dates ne sont pas bloquées dans le dernier calendrier importé. Airbnb confirmera la disponibilité et le tarif.';
-    } else if (arrival.value && loaded) status.textContent = 'Séjour indisponible dans le calendrier importé, ou dates invalides. Choisissez une autre arrivée ou durée.';
+      status.textContent = msg.available;
+    } else if (arrival.value && loaded) status.textContent = msg.unavailable;
   };
   const render = () => {
     title.textContent = new Intl.DateTimeFormat(locale,{month:'long',year:'numeric'}).format(month);
@@ -54,7 +54,7 @@
       const button=document.createElement('button');button.type='button';button.textContent=i;button.className='cal-day';
       const unavailable=!loaded || d<iso(today) || isBlocked(d);
       button.disabled=unavailable;
-      button.title=!loaded?'Calendrier non chargé':unavailable?'Indisponible':'Choisir cette date d’arrivée';
+      button.title=!loaded?msg.notLoaded:unavailable?msg.blocked:msg.pick;
       if(unavailable)button.classList.add('cal-unavailable');
       if(d===arrival.value)button.classList.add('cal-selected');
       button.addEventListener('click',()=>{arrival.value=d;update();render();});
@@ -66,5 +66,5 @@
   arrival.min=iso(today); arrival.addEventListener('change',()=>{update();render();});
   nights.addEventListener('change',update);
   render();
-  fetch('/api/availability').then(async r=>{const data=await r.json();if(!r.ok)throw Error(data.error);blocked=data.blocked;loaded=true;status.textContent=msg.loaded+new Date(data.updatedAt).toLocaleString(locale)+'.'+msg.select;render();update();}).catch(()=>{loaded=false;status.textContent='Le calendrier n’est pas encore connecté ou est temporairement indisponible. Consultez Airbnb pour vérifier les dates.';render();});
+  fetch('/api/availability').then(async r=>{const data=await r.json();if(!r.ok)throw Error(data.error);blocked=data.blocked;loaded=true;status.textContent=msg.loaded+new Date(data.updatedAt).toLocaleString(locale)+'.'+msg.select;render();update();}).catch(()=>{loaded=false;status.textContent=msg.error;render();});
 })();
