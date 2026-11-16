@@ -27,3 +27,8 @@ Le calendrier de consultation iCal est désormais intégré : `public/availabili
 
 ## Redéploiement
 Un commit sur `main` déclenche normalement un nouveau déploiement si l’intégration GitHub → Cloudflare Pages et les déploiements automatiques sont activés. Vérifier l’onglet **Deployments** dans Cloudflare et le statut du build. La configuration du secret `AIRBNB_ICAL_URL` reste nécessaire pour charger le calendrier.
+
+## Diagnostic Cloudflare Pages — calendrier iCal
+
+Si `/api/availability` retourne `{"error":"Calendrier non configuré"}`, la fonction Pages est bien exécutée, mais la variable `AIRBNB_ICAL_URL` n'est pas accessible à cette fonction. Vérifier dans **Workers & Pages → gite-esneux → Settings → Variables and Secrets** que le nom est exact, que la variable est définie en **Production** et qu'elle est bien enregistrée comme secret. Redéployer après la configuration. Ne jamais enregistrer l'URL iCal dans GitHub : elle contient un jeton confidentiel.
+
