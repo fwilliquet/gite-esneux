@@ -45,7 +45,7 @@
     title.textContent = new Intl.DateTimeFormat(locale,{month:'long',year:'numeric'}).format(month);
     prev.disabled = month.getFullYear() === today.getFullYear() && month.getMonth() === today.getMonth();
     calendar.replaceChildren();
-    ['L','M','M','J','V','S','D'].forEach(label => { const el=document.createElement('span');el.className='cal-weekday';el.textContent=label;calendar.append(el); });
+    ({fr:['L','M','M','J','V','S','D'],nl:['M','D','W','D','V','Z','Z'],de:['M','D','M','D','F','S','S'],en:['M','T','W','T','F','S','S']}[language] || ['L','M','M','J','V','S','D']).forEach(label => { const el=document.createElement('span');el.className='cal-weekday';el.textContent=label;calendar.append(el); });
     const offset=(month.getDay()+6)%7;
     for(let i=0;i<offset;i++) calendar.append(document.createElement('span'));
     const count=new Date(month.getFullYear(),month.getMonth()+1,0).getDate();
