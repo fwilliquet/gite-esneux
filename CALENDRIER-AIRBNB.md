@@ -13,3 +13,7 @@ Le calendrier public est dans `public/index.html` et `public/availability.js`. L
 **Attention :** la synchronisation iCal est différée. Les disponibilités affichées ne sont pas une garantie de réservation. Airbnb reste la source de confirmation du tarif, des conditions et de la réservation. La fonction ne renvoie pas les détails des réservations.
 
 **Architecture Cloudflare Pages :** racine du dépôt pour le dossier `functions/`, sortie statique `public/`. Ne pas définir `public` comme racine du dépôt, sinon les Pages Functions risquent de ne pas être détectées.
+
+## Vérification après redéploiement
+
+Après le prochain déploiement de `main`, ouvrir `https://gite-esneux.pages.dev/api/availability`. Une réponse contenant `blocked` et `updatedAt` confirme que le flux est récupéré. Une réponse `Calendrier non configuré` signifie que la variable secrète `AIRBNB_ICAL_URL` n'est pas visible de la fonction en environnement Production : vérifier le nom exact, l'environnement et l'enregistrement dans Cloudflare. Ne jamais coller le jeton iCal dans le dépôt public.
